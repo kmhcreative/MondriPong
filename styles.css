@@ -1,0 +1,23 @@
+body {
+	font-family: Impact, 'Arial Black', Arial, sans-serif;
+	padding: 0; margin: 0; overflow: hidden;
+}
+h1, h2, p {
+	text-align: center;
+}
+p.description {
+	font-family: Arial, sans-serif;
+}
+p.footer {
+	display: block;
+	position: absolute;
+	bottom: 0;
+	font-size: 12px;
+	width: 100%;
+}
+#game {
+	display: block;
+	margin: 20px auto;
+    background-color: #fff;
+    border: 3px solid black;
+}
