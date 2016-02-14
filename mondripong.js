@@ -1,7 +1,11 @@
 /*  MondriPong
-    Version 1.0
+    Version 1.1
     Copyright 2016 K.M. Hansen
     http://www.kmhcreative.com
+    
+    GitHub Contributors:
+    @kmhcreative
+    @salty-horse
     
     Based on "Pong" Tutorial by Maison
     http://blog.mailson.org/2013/02/simple-pong-game-using-html5-and-canvas/
