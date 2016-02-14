@@ -21,7 +21,7 @@ function Game() {
     this.p2.y = this.height/2 - this.p2.height/2;
     this.display2 = new Display(this.width*3/4, 25,"blue");
     
-    this.ball = new Ball();
+    this.ball = new Ball(0, 0, "yellow");
     this.ball.x = this.width/2;
     this.ball.y = this.height/2;
     this.ball.vy = Math.floor(Math.random()*12 - 6);
@@ -121,65 +121,53 @@ Game.prototype.score = function(p)
         this.ball.vx *= -1;
 };
 
-
-// PADDLE
-function Paddle(x,y,c) {
+function Rect(x, y, c) {
     this.x = x;
     this.y = y;
-    this.width = 54;
-    this.height = 160;
-    this.score = 0;
     this.c = c;
-    this.x2 = -50;
-    this.height2 = 3;
-    this.width2 = 1000; 
+    this.lineWidth = 3;
 }
 
-Paddle.prototype.draw = function(p)
+Rect.prototype.draw = function(p)
 {
-	  p.fillStyle = this.c;
+    p.fillStyle = this.c;
     p.fillRect(this.x, this.y, this.width, this.height);
-    p.strokeRect(this.x,this.y,this.width,this.height);
-    p.lineWidth = 3;
-    p.fillStyle="black";
-    p.fillRect(this.x2/2,this.y-2,this.width2,this.height2);
-    p.fillRect(this.x2/2,this.y+159,this.width2,this.height2);
+    p.strokeRect(this.x, this.y, this.width, this.height);
+    p.lineWidth = this.lineWidth;
+    p.fillStyle = "black";
+    p.fillRect(0, this.y-2, p.canvas.width, this.lineWidth);
+    p.fillRect(0, this.y+this.height-1, p.canvas.width, this.lineWidth);
+    p.fillRect(this.x-2, 0, this.lineWidth, p.canvas.height);
+    p.fillRect(this.x+this.width-1, 0, this.lineWidth, p.canvas.height);
 };
 
 
+
+// PADDLE
+function Paddle(x,y,c) {
+    Rect.call(this, x, y, c);
+    this.width = 54;
+    this.height = 160;
+    this.score = 0;
+}
+
+Paddle.prototype = Object.create(Rect.prototype);
+
 // BALL
-function Ball() {
-    this.x = 0;
-    this.y = 0;
+function Ball(x,y,c) {
+    Rect.call(this, x, y, c);
     this.vx = 0;
     this.vy = 0;
     this.width = 58;
     this.height = 44;
-    this.x2 = -50;
-    this.y2 = -50;
-    this.width2 = 3;
-    this.height2 = 1000;
-    this.width3  = 1000;
-    this.height3 = 3;
 }
+
+Ball.prototype = Object.create(Rect.prototype);
  
 Ball.prototype.update = function()
 {
     this.x += this.vx;
     this.y += this.vy;
-};
- 
-Ball.prototype.draw = function(b)
-{ 
-	  b.fillStyle = "yellow";
-    b.fillRect(this.x, this.y, this.width, this.height);
-    b.strokeRect(this.x,this.y,this.width,this.height);
-    b.lineWidth = 3;
-    b.fillStyle ="black";
-    b.fillRect(this.x-2,this.y2/2,this.width2,this.height2);
-    b.fillRect(this.x+57,this.y2/2,this.width2,this.height2);
-		b.fillRect(this.x2/2,this.y-2,this.width3,this.height3);
-    b.fillRect(this.x2/2,this.y+43,this.width3,this.height3);
 };
 
 
@@ -193,7 +181,7 @@ function Display(x, y, c) {
  
 Display.prototype.draw = function(d)
 {
-	  d.fillStyle = this.c;
+    d.fillStyle = this.c;
     d.fillText(this.value, this.x, this.y);
     d.font = "24px Impact";
 };
