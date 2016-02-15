@@ -15,4 +15,4 @@ The size and position of the elements is designed to reflect the size and positi
 
 ## Thanks
 
-The starting point for this game was an HTML5 Canvas tutorial by [Mailson](http://blog.mailson.org/2013/02/simple-pong-game-using-html5-and-canvas/) and, of course, the animated GIF itself.
+The starting point for this game was an HTML5 Canvas tutorial by [Mailson](http://blog.mailson.org/2013/02/simple-pong-game-using-html5-and-canvas/) and, of course, the animated GIF itself which appears to have originated as an entry in the [b3ta Make Art More Awesome Challenge](http://www.b3ta.com/board/9971945).
