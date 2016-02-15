@@ -14,13 +14,13 @@ function Game() {
     var canvas = document.getElementById("game");
     this.width = canvas.width;
     this.height = canvas.height;
-   this.context = canvas.getContext("2d");
-   this.context.fillStyle = "white";
+    this.context = canvas.getContext("2d");
+    this.context.fillStyle = "white";
     this.keys = new KeyListener();
     
     this.p1 = new Paddle(20, 0, "red");
     this.p1.y = this.height/2 - this.p1.height/2;
- 	  this.display1 = new Display(this.width/4, 25,"red");
+ 	this.display1 = new Display(this.width/4, 25,"red");
     this.p2 = new Paddle(this.width - 74 - 2, 0, "blue");
     this.p2.y = this.height/2 - this.p2.height/2;
     this.display2 = new Display(this.width*3/4, 25,"blue");
@@ -35,8 +35,6 @@ function Game() {
 Game.prototype.draw = function()
 {
     this.context.clearRect(0, 0, this.width, this.height);
-    this.context.fillStyle = "black";
-    this.context.fillRect(this.width/2, 0, 3, this.height);
     
     this.ball.draw(this.context);
     
