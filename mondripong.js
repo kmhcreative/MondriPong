@@ -68,27 +68,66 @@ Game.prototype.update = function()
     }
  
     if (this.ball.vx > 0) {
+		//If I overshot
         if (this.p2.x <= this.ball.x + this.ball.width &&
+				//And had not overshot last frame (i.e. only test once)
                 this.p2.x > this.ball.x - this.ball.vx + this.ball.width) {
+
+			//X-distance by which I overshot
             var collisionDiff = this.ball.x + this.ball.width - this.p2.x;
+
+			//Percentage of timestep by which I overshot
             var k = collisionDiff/this.ball.vx;
-            var y = this.ball.vy*k + (this.ball.y - this.ball.vy);
-            if (y >= this.p2.y && y + this.ball.height <= this.p2.y + this.p2.height) {
+
+			var inv_k = 1 - k; //percentage of timestep I should have travelled
+
+			//y-distance by which I overshot 
+			var last_frame_y = this.ball.y - this.ball.vy
+
+			//y when I collided
+			//start of last frame + distance I should have travelled
+            var collide_y = last_frame_y  + (this.ball.vy * inv_k);
+
+			var collided = collide_y + this.ball.height >= this.p2.y &&  //below top of paddle
+			               collide_y  <= this.p2.y + this.p2.height;     //above bottom of paddle
+
+			console.log(collide_y, collided);
+
+            if (collided) {
                 // collides with right paddle
                 this.ball.x = this.p2.x - this.ball.width;
-                this.ball.y = Math.floor(this.ball.y - this.ball.vy + this.ball.vy*k);
+                this.ball.y = Math.floor(collide_y);
                 this.ball.vx = -this.ball.vx;
             }
         }
     } else {
-        if (this.p1.x + this.p1.width >= this.ball.x) {
-            var collisionDiff = this.p1.x + this.p1.width - this.ball.x;
-            var k = collisionDiff/-this.ball.vx;
-            var y = this.ball.vy*k + (this.ball.y - this.ball.vy);
-            if (y >= this.p1.y && y + this.ball.height <= this.p1.y + this.p1.height) {
-                // collides with the left paddle
+		//If I overshot
+        if (this.p1.x + this.p1.width >= this.ball.x &&
+				//And had not overshot last frame (i.e. only test once)
+                this.p1.x + this.p1.width < this.ball.x - this.ball.vx) {
+
+			//X-distance by which I overshot
+            var collisionDiff = (this.p1.x + this.p1.width) - this.ball.x;
+
+			//Percentage of timestep by which I overshot
+            var k = collisionDiff/this.ball.vx;
+
+			var inv_k = 1 - k; //percentage of timestep I should have travelled
+
+			//y-distance by which I overshot 
+			var last_frame_y = this.ball.y - this.ball.vy
+
+			//y when I collided
+			//start of last frame + distance I should have travelled
+            var collide_y = last_frame_y  + (this.ball.vy * inv_k);
+
+			var collided = collide_y + this.ball.height >= this.p1.y &&  //below top of paddle
+			               collide_y  <= this.p1.y + this.p1.height;     //above bottom of paddle
+
+            if (collided) {
+                // collides with right paddle
                 this.ball.x = this.p1.x + this.p1.width;
-                this.ball.y = Math.floor(this.ball.y - this.ball.vy + this.ball.vy*k);
+                this.ball.y = Math.floor(collide_y);
                 this.ball.vx = -this.ball.vx;
             }
         }
