@@ -1,18 +1,168 @@
 <!DOCTYPE HTML>
 <html>
     <head>
+		<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="msapplication-TileColor" content="#FFFFFF" />
+		<meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" id="view_meta">
+		<meta name="msapplication-TileImage" content="images/app/icons/favicon.png" />
+		<link rel="shortcut icon" type="images/vnd.microsoft.icon" href="images/app/icons/favicon.ico" sizes="16x16 32x32 48x48 64x64 128x128" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="white" />
+		<meta name="apple-mobile-web-app-title" content="MondriPong">
+		<meta property="og:title" content="MondriPong" />
+		<meta property="og:type"  content="website" />
+		<meta property="og:site_name" content="MondriPong" />
+		<meta property="og:image" content="images/pongdrian.gif" />
+		<link rel="icon" type="image/png" href="images/app/icons/favicon.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/icons/mondripong-01.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/icons/mondripong-02.png" />
+		<link rel="apple-touch-icon-precomposed" href="ryuzine/icons/mondripong-03.png" />
         <title>MondriPong</title>
-        <link rel="stylesheet" type="text/css" href="styles.css"/>
+        <link rel="stylesheet" type="text/css" href="css/styles.css"/>
+
     </head>
-    <body>
-    	<h1>MondriPong 1.1</h1>
-        <h2>A playable version of the Mondrian Pong GIF</h2>
-        <canvas id="game" width="400" height="400"></canvas>
-        <h2>Game Controls:</h2>
-        <p class="redplayer">Red: A = Up : Z = Down</p>
-        <p class="bluplayer">Blue: &#8593; = Up : &#8595; = Down</p>
-        <p class="description">There is an uncredited, <a href="mondripong_ani.gif" target="_blank">animated GIF</a> of this circulating on social media.<br/>The original source appears to be an entry in the <a href="http://www.b3ta.com/board/9971945">b3ta Make Art More Awesome Challenge</a><br/>After searching for a playable version none was found so now here it is!</p>
-        <p class="footer">&copy; 2016 K.M. Hansen <a href="http://www.kmhcreative.com" target="_blank">KMH Creative</a> &mdash; Based on "Pong" tutorial by <a href="http://blog.mailson.org/2013/02/simple-pong-game-using-html5-and-canvas/" target="_blank">Mailson</a> &mdash; <a href="LICENSE" target="_blank">MIT License</a></p>
-        <script src="mondripong.js"></script>
+    <body onresize="scaleGame();" onorientationchange="scaleGame();">
+    	<div id="bezelmask"></div>
+        <div id="gamebox">
+			<canvas id="game" width="400" height="400"></canvas>
+			<div id="controllers" class="game_a">
+				<button id="p1up" class="controller"><span>&#9650;</span></button>
+				<button id="p1dn" class="controller"><span>&#9660;</span></button>	
+				<button id="p2up" class="controller ai"><span>&#9650;</span></button>
+				<button id="p2dn" class="controller ai"><span>&#9660;</span></button>
+			</div>
+			<div id="splash" class="screen in">
+				<h1 class="header yellow centertext noborder">MondriPong</h1>
+				<div class="banner lineblock yellow"><div class="spacebox"></div></div>
+				<div class="version lineblock blue"><p>v<span id="version">1.3</span></p></div>
+				<div class="buttonblock center lineblock red"><button id="playnow" class="red">PLAY!</button></div>
+				<div class="buttonblock bottom left lineblock yellow"><button id="opt_screen" class="yellow">Options</button></div>
+				<div class="buttonblock bottom right lineblock blue"><button id="about_screen" class="blue">About</button></div>
+				<div class="footer lineblock white">Copyright 2016 K.M. Hansen, KMHcreative.com</div>
+			</div>
+			<div id="options" class="screen out">
+					<h1 class="header yellow bordered">Options<button class="back blue">Home</button></h1>
+					<div class="contentbox">
+						<fieldset>
+						<legend>Game Mode</legend>
+						<label>Layout: 
+						<select id="gamemode" class="red">
+						</select>
+						</label>
+
+						<label> Players:
+						<select id="numplayers" class="yellow">
+							<option value="1">1 Player</option>
+							<option value="2">2 Player</option>
+						</select>
+						</label>
+						
+						<label>Game Type: 
+						<select id="playrounds" class="blue">
+							<option value="1">Single Game</option>
+							<option value="3">Tournament (3 Rounds)</option>
+							<option value="5">Tournament (5 Rounds)</option>
+							<option value="7">Tournament (7 Rounds)</option>
+							<option value="9">Tournament (9 Rounds)</option>
+						</select>
+						</label>
+						</fieldset>
+						
+						<fieldset>
+						<legend>Screen Mode</legend>
+						<label id="togglefs">View: <button id="fullscreen" onclick="toggleFullScreen();" class="red">Enter Fullscreen</button></label>
+						<label>Game Scaling: 
+						<select id="views" class="black">
+							<option value="0">Original Size</option>
+							<option value="1">FIT if Too Small</option>
+							<option value="2">SCALE Up/Down</option>
+							<option value="3">FILL Window</option>
+						</select>
+						</label>
+						<label>Fade Bezel: 
+						<select id="bezel" class="white">
+							<option value="0">Opaque</option>
+							<option value="0.25">25% Fade</option>
+							<option value="0.50">50% Fade</option>
+							<option value="0.75">75% Fade</option>
+							<option value="1.0">100% Fade</option>
+						</select>
+						</fieldset>
+						
+						<fieldset>
+						<legend>Difficulty</legend>
+						<label>Speed: 
+						<select id="startspeed" class="yellow">
+							<option value="60.6666">Easy</option>
+							<option value="33.3333" selected>Normal</option>
+							<option value="15.1111">Fast</option>
+						</select>
+						</label>
+
+						<label>Increase Speed: 
+						<select id="difficulty" class="red">
+							<option value="0">Never</option>
+							<option value="0.0001" selected>Slowly</option>
+							<option value="0.001">Moderately</option>
+							<option value="0.010">Quickly</option>
+							<option value="0.020">Very Quickly</option>
+							<option value="0.1">Insanely Fast</option>
+						</select>
+						</label>
+						</fieldset>
+						
+						<fieldset>
+						<legend>Game Controls:</legend>
+						<p>Use on-screen controls or use keyboard:</p>
+						<p class="redplayer">Red: A = Up : Z = Down</p>
+						<p class="bluplayer">Blue: &#8593; = Up : &#8595; = Down</p>
+						<p>ESC key quits current game</p>
+						</fieldset>
+					</div>
+				</div>
+			<div id="about" class="screen out">
+					<h1 class="header blue bordered">About<button class="back yellow">Home</button></h1>
+					<div class="contentbox">
+						<h3>Piet Mondrian</h3>
+						<figure class="right"><img src="images/143px-Piet_Mondrian.jpg"/>
+						<figcaption>Piet Mondrian (<a href="https://commons.wikimedia.org/w/index.php?curid=5184523" target="_blank">source</a>)</figcaption>
+						</figure>
+						<p><strong>Pieter Cornelis "Piet" Mondriaan</strong> (1872-1944) was a Dutch painter and contributor to the 
+						<em>De Stijl</em> art movement and group best known for his "Neoplastic" style.</p>
+						<p>After moving to France in 1911 he changed the spelling of his last name to "Mondrian" intent on joining the Paris avant-garde, where he encountered 
+						the "Cubist" style of Picasso and Braque.  However, it wasn't until the 1920's that he became known for the non-representational style he termed "neoplasticism," which 
+						 consisted of a white background intersected by a grid of horizontal and vertical black lines and blocks of primary colors.  <a href="https://en.wikipedia.org/wiki/Piet_Mondrian" target="_blank">Read More...</a>
+						<h3>Mondrian Pong GIFs</h3>
+						<img src="images/mondripong_ani.gif"/>
+						<p>The first joke combining Mondrian's signature style with the classic arcade game "Pong" came from user "Custard" in March 2010 as part of the b3ta.com board's "<a href="http://www.b3ta.com/challenge/makeartmoreawesome/popular" target="_blank">Make Art More Awesome</a>" challenge.</p>
+						<img src="images/pongdrian.gif"/>
+						<p>The second animated GIF to circulate the Internet riffing on this same joke was "Pongdrian" by user "HappyToast" in March 2016 as part of the b3ta.com board's "<a href="http://www.b3ta.com/challenge/gameart/popular">Video Game Art</a> challenge.</p>
+						<h2>Playable MondriPong Game</h2>
+						<p>After the first animated GIF saw a revival of social media sharing in January 2016, designer K.M. Hansen was surprised a Google search didn't turn up a playable version and set out to create one.</p>
+						The starting point for this game was an HTML5 Canvas tutorial and, of course, the animated GIF itself. A subsequent update added a game mode based on the later animated GIF.</p>
+						<h3>Credits</h3>
+						<p>Original code based on "Pong" tutorial by <a href="http://blog.mailson.org/2013/02/simple-pong-game-using-html5-and-canvas/" target="_blank">Mailson</a></p>
+						<h3>GitHub Contributors:</h3>
+						<div id="team">
+							<p>(automatically populated)</p>
+						</div>
+						<p>You can contribute to or fork this project on <a href="https://github.com/kmhcreative/MondriPong" target="_blank">GitHub</a></p>
+						<h2>License</h2>
+						<p>This game is published under an <a href="LICENSE" target="_blank">MIT License</a>.  If you contribute to the code please make sure 
+						it is compatible with this license.  Fonts are under a SIL <a href="fonts/Comfortaa/OFL.txt" target="_blank">Open Font license</a>.</p>
+					</div>
+				</div>
+        	<div id="gameover" class="screen out">
+        		<h1 id="notice" class="header yellow centertext noborder">Game Over!</h1>
+        		<div class="banner lineblock yellow"><div class="spacebox"></div></div>
+				<div id="winbox" class="red">RED WINS ROUND 5!!</div>
+				<div id="continuegame" class="buttonblock bottom left lineblock red"><button class="red">Continue</button></div>
+        		<div id="playagain" class="buttonblock bottom left lineblock blue"><button class="blue">Play Again</button></div>
+        		<div id="quitgame" class="buttonblock bottom right lineblock black"><button class="black">Quit</button></div>
+        	</div>
+        	<div id="ready">Ready...</div>
+		</div>
     </body>
+        <script src="js/mondripong.js"></script>
 </html>

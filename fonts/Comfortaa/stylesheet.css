@@ -1,0 +1,33 @@
+/* NOTE: Only TTF font is available for redistribution */
+
+
+
+@font-face {
+    font-family: 'Comfortaa-Regular';
+    src: url('Comfortaa-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'Comfortaa-Bold';
+    src: url('Comfortaa-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'Comfortaa-Light';
+    src: url('Comfortaa-Light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
