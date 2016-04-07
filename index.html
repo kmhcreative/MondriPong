@@ -22,10 +22,17 @@
         <link rel="stylesheet" type="text/css" href="css/styles.css"/>
 
     </head>
-    <body onresize="scaleGame();" onorientationchange="scaleGame();">
+    <body onresize="setTimeout(scaleGame,500);" onorientationchange="setTimeout(scaleGame,500);">
     	<div id="bezelmask"></div>
         <div id="gamebox">
 			<canvas id="game" width="400" height="400"></canvas>
+			<!--// technically you could use one audio element and swap out the source,
+				   however in testing that created delays in the game cycle refresh but
+				   using multiple audio elements did not, which is why there are four //-->
+			<audio id="redfx"  src="sounds/bounce1.wav" style="display: none;"></audio>
+			<audio id="bluefx" src="sounds/bounce2.wav" style="display:none;"></audio>
+			<audio id="wallfx" src="sounds/wallbounce.wav" style="display:none;"></audio>
+			<audio id="scorefx" src="sounds/gamestart.wav" style="display:none;"></audio>
 			<div id="controllers" class="game_a">
 				<button id="p1up" class="controller"><span>&#9650;</span></button>
 				<button id="p1dn" class="controller"><span>&#9660;</span></button>	
@@ -69,6 +76,12 @@
 						</label>
 						</fieldset>
 						
+						<fieldset>
+						<label>Audio:
+						<div><input type="checkbox" value="1" id="muteaudio"/> Mute Sound FX</div>
+						</label>
+						</fieldset>
+												
 						<fieldset>
 						<legend>Screen Mode</legend>
 						<label id="togglefs">View: <button id="fullscreen" onclick="toggleFullScreen();" class="red">Enter Fullscreen</button></label>

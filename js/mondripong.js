@@ -1,5 +1,5 @@
 /*  MondriPong
-    Version 1.3
+    Version 1.4
     Copyright 2016 K.M. Hansen
     http://www.kmhcreative.com
     
@@ -27,6 +27,20 @@ function Game() {
     this.context.fillStyle = "white";
     this.keys = new KeyListener();
     this.context.scale(1,1);
+    
+/*    this.soundfx = document.getElementById('soundfx');
+    this.gamestart  = "sounds/268155__thirteenthfail__begin.wav";
+    this.gameover   = "sounds/268158__thirteenthfail__harmony.wav";
+    this.bounce1    = "sounds/268161__thirteenthfail__player-red.wav";
+    this.bounce2    = "sounds/268161__thirteenthfail__player-blue.wav";
+    this.wallbounce = "sounds/268156__thirteenthfail__beat.wav";
+*/
+	this.bounce1 = document.getElementById('redfx');
+	this.bounce2 = document.getElementById('bluefx');
+	this.wallbounce = document.getElementById('wallfx');
+	this.overshot = "sounds/overshot.wav";
+	this.gamestart = "sounds/gamestart.wav";
+	this.scorefx =document.getElementById('scorefx');
     
     this.p1 = new Paddle(20, 0, "red");
     this.p1.y = this.height/2 - this.p1.height/2;
@@ -125,6 +139,7 @@ Game.prototype.update = function()
 
             if (collided) {
                 // collides with right paddle
+                this.bounce2.play();
                 this.ball.x = this.p2.x - this.ball.width+spin;
                 this.ball.y = Math.floor(collide_y)-spin;
                 this.ball.vx = -this.ball.vx;
@@ -156,6 +171,7 @@ Game.prototype.update = function()
 
             if (collided) {
                 // collides with right paddle
+                this.bounce1.play();
                 this.ball.x = this.p1.x + this.p1.width-spin;
                 this.ball.y = Math.floor(collide_y)+spin;
                 this.ball.vx = -this.ball.vx;
@@ -166,13 +182,17 @@ Game.prototype.update = function()
     // Top and bottom collision
     if ((this.ball.vy < this.top && this.ball.y < this.top) ||
         (this.ball.vy > 0 && (this.ball.y + this.ball.height) > (this.height-this.bottom) )) {
+        this.wallbounce.play();
         this.ball.vy = -this.ball.vy;
     }
     
-    if (this.ball.x >= this.width)
+    if (this.ball.x >= this.width) {
         this.score(this.p1);
-    else if (this.ball.x + this.ball.width <= 0)
+        this.scorefx.play();
+    } else if (this.ball.x + this.ball.width <= 0) {
         this.score(this.p2);
+        this.scorefx.play();
+    }
 	
 	// End Game when one side gets 11 points
 	if (numgames == 1) {
@@ -187,6 +207,8 @@ Game.prototype.update = function()
 				ui.winbox.className = "blue";
 				ui.winbox.innerHTML = "BLUE WINS!!";
 			}
+			this.scorefx.src = this.gamestart;
+			this.scorefx.play();
 			ui.gameover.style.display = "block";
 		}
 	} else {
@@ -220,6 +242,8 @@ Game.prototype.update = function()
 				tournament.p1.length = 0;
 				tournament.p1.length = 0;
 			}
+			this.scorefx.src = this.gamestart;
+			this.scorefx.play();
 			ui.gameover.style.display = "block";
 		}
 	}
@@ -402,7 +426,7 @@ String.prototype.capitalize = function() {
 	       MAIN GAME VARIABLES
    ========================================= 
 */
-var v = "1.3"		  // Version Number
+var v = "1.4"		  // Version Number
 /* if you contributed code that got merged on
    GitHub feel free to add your handle to the
    list below and it will appear on the "About"
@@ -501,7 +525,7 @@ var backbuttons = document.querySelectorAll('button.back');
 	backbuttons[0].addEventListener(iClick,function(){toggleScreen('splash');},true);
 	backbuttons[1].addEventListener(iClick,function(){toggleScreen('splash');},true);
 // Options Screen
-ui.views.addEventListener('change',function(){scaleGame();},true);
+ui.views.addEventListener('change',function(){setTimeout(scaleGame,500);},true);
 ui.bezel.addEventListener('change',function(){ui.bezelmask.style.opacity=ui.bezel.value;},true);
 // On-screen buttons each need two handlers for up/down = false/true
 // Player 1 controls
@@ -530,10 +554,12 @@ function MainLoop() {
 }
 // Ready Set Go! Delay so players can get ready (yes, this is a crazy nested setTimeout)
 function readySetGo() {
+	game.scorefx.src = game.gamestart;
 	ui.gameover.style.display = "none";
 	ui.ready.style.display = "block";
 	setTimeout(function(){
 		ui.ready.innerHTML = "Ready..."
+		game.scorefx.play();
 		setTimeout(function() {
 			ui.ready.innerHTML = "Set...";
 			setTimeout(function(){
@@ -541,6 +567,7 @@ function readySetGo() {
 				setTimeout(function(){
 					ui.ready.innerHTML = "";
 					ui.ready.style.display = "none";
+					game.scorefx.src = game.overshot;
 					game.paused = false;
 				},1000);
 			},1000);
@@ -571,6 +598,18 @@ function play(modename) {
 		modename = ui.gamemode.value;
 	}
 	mode[''+modename+'']();
+	// if audio disabled mute players
+	if (ui.muteaudio.checked) {
+		game.bounce1.muted = true;
+		game.bounce2.muted = true;
+		game.wallbounce.muted = true;
+		game.scorefx.muted = true;
+	} else {
+		game.bounce1.muted = false;
+		game.bounce2.muted = false;
+		game.wallbounce.muted = false;
+		game.scorefx.muted = false;
+	}
 	// clear splash
 	ui.splash.style.display = "none";
 	// start loop
@@ -621,7 +660,16 @@ function toggleFullScreen() {
     ui.fullscreen.innerHTML = "Enter Fullscreen";
   }
 }
-
+/* Delay Game Resize for Mobile Devices
+   ====================================
+   Mobile browser orientation change can reflow slower
+   than desktop browser resize so we need to delay it
+   or it may grab the wrong window size values.  Below
+   a 300ms delay should be enough, but resize animation
+   is 1s anyway so padded it to 500ms which should also
+   help lower powered mobile devices.  This, however,
+   assumes the browser supports CSS3 Transform Scale.   
+*/
 var scaleGame = function() {
 	var portW  = document.documentElement.clientWidth
 	  , portH = document.documentElement.clientHeight;
@@ -663,9 +711,9 @@ var scaleGame = function() {
 // Scale up for iPad and Android tablets
 if (navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/Android/i) ) {
 	ui.views.value = 2;
-	scaleGame();
+	setTimeout(scaleGame,500);
 } else {
-	scaleGame();
+	setTimeout(scaleGame,500);
 }
 // iDevices do not support the fullscreen toggle so hide it from options
 if (navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i)) {

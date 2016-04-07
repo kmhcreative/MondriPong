@@ -15,7 +15,16 @@ The first animated GIF saw a revival of social media sharing in January 2016, bu
 
 The size and position of the elements is designed to reflect the size and positioning of the elements in the original animated GIF, even though they aren't necessarily ideal for a playable game.
 
+## Known Problems
+* If you use the higher difficulty settings you may experience "bullet time" speed-ups and slow-downs.  These are unintentional hiccups in the browser running the game cycle, but actually kind of cool.
+* Sound effects may not play on some platforms or browsers
+* Sound effects may be out of sync with the activation elements or fail to play at all (this appears to be more common on mobile browsers).
+
 ## Version History
+
+### Version 1.4
+* Added delay to game scale/fill to prevent wrong size being if browser is resized or orientation is changed quickly
+* Added sound effects and an option to mute audio
 
 ### Version 1.3
 
@@ -54,10 +63,6 @@ The size and position of the elements is designed to reflect the size and positi
 ### Version 1.0
 
 Initial public release, created over the course of an afternoon.
-
-* Improve collision detection, particularly for top/bottom of paddles
-* Add touch events so it can be controlled on a phone or tablet
-* Responsive layout so it adapts to smaller screens
 
 ## Thanks
 

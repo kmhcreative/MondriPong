@@ -344,6 +344,25 @@ figure {
 		-ms-appearance: none;
 		appearance: none;
 	}
+	#options fieldset label div {
+		height: 50px;
+		width: 50%;
+		float: right;
+		font-size: 18px;
+	}
+		#options fieldset label div input[type=checkbox] {
+			height: 25px;
+			width: 25px;
+			border: 3px solid black;
+			vertical-align: middle;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			-ms-appearance: none;
+			appearance: none;
+		}
+		#options fieldset label div input[type=checkbox]:checked {
+			background: black;
+		}
 
 #gamebox {
 	position: relative;
