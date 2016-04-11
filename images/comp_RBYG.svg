@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 14.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 43363)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="334px" height="400px" viewBox="0 0 334 400" enable-background="new 0 0 334 400" xml:space="preserve">
+<g id="Layer_2">
+	<rect y="299.5" fill="#BAB3B7" width="125.5" height="100.5"/>
+	<rect fill="#DCE4E6" width="215.5" height="97.5"/>
+	<rect y="198.5" fill="#140308" width="30.5" height="154"/>
+	<rect x="125.5" y="299.5" fill="#140308" width="90" height="53"/>
+	<rect y="97.5" fill="#EA370B" width="30.5" height="101"/>
+	<rect x="125.5" y="198.5" fill="#EA370B" width="90" height="101"/>
+	<rect x="215.5" y="23.5" fill="#EA370B" width="93" height="74"/>
+	<rect x="215.5" y="97.5" fill="#014081" width="93" height="202"/>
+	<rect x="125.5" y="352.5" fill="#014081" width="208.5" height="47.5"/>
+	<rect x="30.5" y="97.5" fill="#E7AF32" width="185" height="101"/>
+	<rect x="215.5" y="299.5" fill="#E7AF32" width="93" height="53"/>
+	<rect x="30.5" y="198.5" fill="#DCE4E6" width="95" height="101"/>
+	<rect x="308.5" fill="#DCE4E6" width="25.5" height="352.5"/>
+	<rect x="215.5" fill="#BAB3B7" width="93" height="23.5"/>
+	<rect x="30.5" fill="#1874AE" width="185" height="23.5"/>
+</g>
+<g id="Layer_3">
+	<line fill="none" stroke="#333333" stroke-width="3" x1="30.5" y1="0" x2="30.5" y2="400"/>
+	<line fill="none" stroke="#333333" stroke-width="3" x1="308.5" y1="0" x2="308.5" y2="400"/>
+	<line fill="none" stroke="#333333" stroke-width="3" x1="0" y1="97.5" x2="334" y2="97.5"/>
+	<line fill="none" stroke="#333333" stroke-width="3" x1="0" y1="352.5" x2="334" y2="352.5"/>
+	<line fill="none" stroke="#333333" stroke-width="3" x1="125.5" y1="97.5" x2="125.5" y2="400"/>
+	<line fill="none" stroke="#333333" stroke-width="3" x1="215.5" y1="352.5" x2="215.5" y2="0"/>
+	<line fill="none" stroke="#333333" stroke-width="3" x1="30.5" y1="299.5" x2="308.5" y2="299.5"/>
+	<line fill="none" stroke="#333333" stroke-width="3" x1="0" y1="198.5" x2="215.5" y2="198.5"/>
+	<line fill="none" stroke="#333333" stroke-width="3" x1="30.5" y1="23.5" x2="308.5" y2="23.5"/>
+</g>
+</svg>

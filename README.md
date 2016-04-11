@@ -22,6 +22,22 @@ The size and position of the elements is designed to reflect the size and positi
 
 ## Version History
 
+### Version 1.5
+* Added 4 new game modes based on actual Mondrian compositions
+* Added option to use images of actual paintings as backgrounds, if available.
+* Updated "About" screen to include information about the original compositions.
+* Moved sound effects out of Game object
+* Audio element(s) now written dynamically depending on if it is mobile or desktop
+* Added audiosprite to accommodate single audio stream limit on mobile devices.
+* Combined play/mute into single function that resolves for single/multiple audio streams.
+* Changed Main Loop to do update and draw inside setTimeout (animates a bit better)
+* Moved game option speed set to "Ready, Set, Go" function so game/round always begins at intended speed setting
+* Improved function that automatically adds game mode names to drop-down Options list
+* Fixed to clear round count if you hit "Quit" or "Play Again" in a Tournament
+* No longer assumes players are "Red" and "Blue," it uses paddle color name.  If name is a hex or rgb code it uses "Left" and "Right."
+* Winbox on game/round over screen now uses paddle colors for game mode defined in stylesheet.
+* Game mode classname moved to "gamebox" element, allowing modes to change the appearance of more elements.
+
 ### Version 1.4
 * Added delay to game scale/fill to prevent wrong size being if browser is resized or orientation is changed quickly
 * Added sound effects and an option to mute audio

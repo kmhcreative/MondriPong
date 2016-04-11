@@ -36,6 +36,17 @@ figure {
 			font-weight: normal;
 			font-style: oblique;
 		}
+div.gallery {
+	clear: both;
+}
+div.gallery figure {
+	width: 45%;
+	float: left;
+	margin-bottom: 20px;
+}
+	div.gallery figure img {
+		width: 100%;
+	}
 /* shorthand left/right */
 .left {
 	float: left;
@@ -47,6 +58,9 @@ figure {
 }
 .center {
 	margin: 0 auto;
+}
+.clear {
+	clear: both;
 }
 .centertext {
 	text-align: center;
@@ -436,16 +450,19 @@ figure {
 		-ms-user-select: none;
 		user-select: none;
 	}
-		#controllers._1player .ai {
+		._1player #controllers .ai {
 			opacity: 0;
 		}
-		#controller._2player .ai {
+		._2player #controllers .ai {
 			opacity: 1;
 		}
 		button.controller {
 			position: absolute;
 			display: block;
 			margin: 0px;
+			height: 206px;
+			width: 50px;
+			border: 3px solid black;
 			-webkit-appearance: none;
 			-moz-appearance: none;
 			-ms-appearance: none;
@@ -461,40 +478,83 @@ figure {
 					font-size: 24px;
 					margin-left: -4px;
 				}
+		.player1color {
+			color: white;
+			background: red;
+		}
+		.player2color {
+			color: white;
+			background: blue;
+		}
 		/* game_a button layout */
-		#controllers.game_a {
-			border: 3px solid black;
-		}
-		.game_a button.controller {
-			height: 206px;
-			width: 50px;
-			border: 3px solid black;
-		}
-		.game_a #p1up {
+		#p1up {
 			top: -3px;
 			left: -3px;
-			background-color: red;
-			color: white;
 		}
-		.game_a #p1dn {
+		#p1dn {
 			bottom: -3px;
 			left: -3px;
-			background-color: red;
-			color: white;
 		}
-		.game_a #p2up {
+		#p2up {
 			top: -3px;
 			right: -3px;
-			background-color: blue;
-			color: white;
 		}
-		.game_a #p2dn {
+		#p2dn {
 			bottom: -3px;
 			right: -3px;
-			background-color: blue;
-			color: white;
 		}
-		
+		.comp_10 .player1color {
+			color: white;
+			background: blue;
+		}
+		.comp_10 .player2color {
+			color: white;
+			background: red;
+		}
+		.comp_a .player1color {
+			color: white;
+			background: black;
+		}
+			.comp_a #p1up, .comp_a #p1dn,
+			.comp_a #p2up, .comp_a #p2dn {
+				border-color: #666;
+			}
+		.comp_a .player2color {
+			color: black;
+			background: yellow;
+		}
+		#gamebox.bry_litho {
+			background: #c0b29a;
+		}
+		.bry_litho .player1color {
+			color: black;
+			background: #cea92e;
+			
+		}
+		.bry_litho .player2color {
+			color: black;
+			background: #a2987e;
+		}
+			.bry_litho #p1up, .bry_litho #p1dn,
+			.bry_litho #p2up, .bry_litho #p2dn {
+				border-width: 8px;
+			}
+		#gamebox.comp_rbyg {
+			background: #bab3b7;
+		}
+		.comp_rbyg .player1color {
+			color: #333;
+			background: #dce4e6;
+		}
+		.comp_rbyg .player2color {
+			color: #333;
+			background: #e7af32;
+		}
+			.comp_rbyg #p1up, .comp_rbyg #p1dn,
+			.comp_rbyg #p2up, .comp_rbyg #p2dn {
+				border-width: 3px;
+				border-color: #333;
+			}
 		/* game b button layout */
 		#controllers.game_b {
 			border: none;
@@ -577,4 +637,11 @@ z-index: 4;
 			top: 50%; left: 50%;
 			margin: -200px -320px;
 		}
+	div.gallery figure {
+		width: auto;
+	}
+	div.gallery figure.left,
+	div.gallery figure.right {
+		float: none;
+	}
 }

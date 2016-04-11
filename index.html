@@ -26,18 +26,11 @@
     	<div id="bezelmask"></div>
         <div id="gamebox">
 			<canvas id="game" width="400" height="400"></canvas>
-			<!--// technically you could use one audio element and swap out the source,
-				   however in testing that created delays in the game cycle refresh but
-				   using multiple audio elements did not, which is why there are four //-->
-			<audio id="redfx"  src="sounds/bounce1.wav" style="display: none;"></audio>
-			<audio id="bluefx" src="sounds/bounce2.wav" style="display:none;"></audio>
-			<audio id="wallfx" src="sounds/wallbounce.wav" style="display:none;"></audio>
-			<audio id="scorefx" src="sounds/gamestart.wav" style="display:none;"></audio>
 			<div id="controllers" class="game_a">
-				<button id="p1up" class="controller"><span>&#9650;</span></button>
-				<button id="p1dn" class="controller"><span>&#9660;</span></button>	
-				<button id="p2up" class="controller ai"><span>&#9650;</span></button>
-				<button id="p2dn" class="controller ai"><span>&#9660;</span></button>
+				<button id="p1up" class="controller player1color"><span>&#9650;</span></button>
+				<button id="p1dn" class="controller player1color"><span>&#9660;</span></button>	
+				<button id="p2up" class="controller player2color ai"><span>&#9650;</span></button>
+				<button id="p2dn" class="controller player2color ai"><span>&#9660;</span></button>
 			</div>
 			<div id="splash" class="screen in">
 				<h1 class="header yellow centertext noborder">MondriPong</h1>
@@ -101,26 +94,28 @@
 							<option value="0.75">75% Fade</option>
 							<option value="1.0">100% Fade</option>
 						</select>
+						<label>Background Art:
+						<div><input type="checkbox" value="1" id="realart"/> Use Paintings</div>
 						</fieldset>
 						
 						<fieldset>
 						<legend>Difficulty</legend>
 						<label>Speed: 
 						<select id="startspeed" class="yellow">
-							<option value="60.6666">Easy</option>
-							<option value="33.3333" selected>Normal</option>
-							<option value="15.1111">Fast</option>
+							<option value="15">Easy</option>
+							<option value="30" selected>Normal</option>
+							<option value="60">Fast</option>
 						</select>
 						</label>
 
 						<label>Increase Speed: 
 						<select id="difficulty" class="red">
 							<option value="0">Never</option>
-							<option value="0.0001" selected>Slowly</option>
-							<option value="0.001">Moderately</option>
-							<option value="0.010">Quickly</option>
-							<option value="0.020">Very Quickly</option>
-							<option value="0.1">Insanely Fast</option>
+							<option value=".01" selected>Slowly</option>
+							<option value=".02">Moderately</option>
+							<option value=".04">Quickly</option>
+							<option value=".08">Very Quickly</option>
+							<option value=".10">Insanely Fast</option>
 						</select>
 						</label>
 						</fieldset>
@@ -128,8 +123,8 @@
 						<fieldset>
 						<legend>Game Controls:</legend>
 						<p>Use on-screen controls or use keyboard:</p>
-						<p class="redplayer">Red: A = Up : Z = Down</p>
-						<p class="bluplayer">Blue: &#8593; = Up : &#8595; = Down</p>
+						<p class="redplayer">Left: A = Up : Z = Down</p>
+						<p class="bluplayer">Right: &#8593; = Up : &#8595; = Down</p>
 						<p>ESC key quits current game</p>
 						</fieldset>
 					</div>
@@ -151,9 +146,30 @@
 						<p>The first joke combining Mondrian's signature style with the classic arcade game "Pong" came from user "Custard" in March 2010 as part of the b3ta.com board's "<a href="http://www.b3ta.com/challenge/makeartmoreawesome/popular" target="_blank">Make Art More Awesome</a>" challenge.</p>
 						<img src="images/pongdrian.gif"/>
 						<p>The second animated GIF to circulate the Internet riffing on this same joke was "Pongdrian" by user "HappyToast" in March 2016 as part of the b3ta.com board's "<a href="http://www.b3ta.com/challenge/gameart/popular">Video Game Art</a> challenge.</p>
-						<h2>Playable MondriPong Game</h2>
+						<h3>Playable MondriPong Game</h3>
 						<p>After the first animated GIF saw a revival of social media sharing in January 2016, designer K.M. Hansen was surprised a Google search didn't turn up a playable version and set out to create one.</p>
 						The starting point for this game was an HTML5 Canvas tutorial and, of course, the animated GIF itself. A subsequent update added a game mode based on the later animated GIF.</p>
+						<p>Version 1.5 adds four new game modes that now allow you to play <em>actual</em> Mondrian compositions!  There is also an option to use images of the original paintings as the game backgrounds.  The new additions are:</p>
+						<div class="gallery">
+						<figure class="left">
+							<img src="images/comp_10.jpg"/>
+							<figcaption>Composition No. 10 (1942)</figcaption>
+						</figure>
+						<figure class="right">
+							<img src="images/comp_a.jpg"/>
+							<figcaption>Composition A (1923)</figcaption>
+						</figure>
+						</div>
+						<div class="gallery">
+						<figure class="left">
+							<img src="images/comp_BRY_Litho.jpg"/>
+							<figcaption>Composition in Blue, Red and Yellow Lithograph (1921)</figcaption>
+						</figure>
+						<figure class="right">
+							<img src="images/comp_RBYG.jpg"/>
+							<figcaption>Composition with Red, Blue and Yellow-Green (1920)</figcaption>
+						</figure>
+						</div>
 						<h3>Credits</h3>
 						<p>Original code based on "Pong" tutorial by <a href="http://blog.mailson.org/2013/02/simple-pong-game-using-html5-and-canvas/" target="_blank">Mailson</a></p>
 						<h3>GitHub Contributors:</h3>
@@ -169,7 +185,7 @@
         	<div id="gameover" class="screen out">
         		<h1 id="notice" class="header yellow centertext noborder">Game Over!</h1>
         		<div class="banner lineblock yellow"><div class="spacebox"></div></div>
-				<div id="winbox" class="red">RED WINS ROUND 5!!</div>
+				<div id="winbox" class="player1color">RED WINS ROUND 5!!</div>
 				<div id="continuegame" class="buttonblock bottom left lineblock red"><button class="red">Continue</button></div>
         		<div id="playagain" class="buttonblock bottom left lineblock blue"><button class="blue">Play Again</button></div>
         		<div id="quitgame" class="buttonblock bottom right lineblock black"><button class="black">Quit</button></div>
