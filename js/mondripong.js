@@ -1,5 +1,5 @@
 /*  MondriPong
-    Version 1.5
+    Version 1.6
     Copyright 2016 K.M. Hansen
     http://www.kmhcreative.com
     
@@ -442,7 +442,7 @@ String.prototype.capitalize = function() {
 	       MAIN GAME VARIABLES
    ========================================= 
 */
-var v = "1.5.1"		  // Version Number
+var v = "1.6"		  // Version Number
 /* if you contributed code that got merged on
    GitHub feel free to add your handle to the
    list below and it will appear on the "About"
