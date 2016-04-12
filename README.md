@@ -26,6 +26,8 @@ The size and position of the elements is designed to reflect the size and positi
 * Fixed paddle line color error if you played a gray-bordered game mode followed by a black-bordered game mode
 * Added a "stuck" tracker so if ball bounces between the paddles 7 times the last one ends with a "slam" that sends the ball in a new direction.
 * Improved AI for computer player - now increases responsiveness each round of tournament (up to fourth round), checks the ball's previous Y position against the current one so it better knows whether to move up or down or stay put.
+* Fixed CSS positioning of on-screen controls
+* Added orientation-aware player non-color player name adjust (switches between Left/Bottom and Right/Top now depending on game orientation)
 
 ### Version 1.5
 * Added 4 new game modes based on actual Mondrian compositions

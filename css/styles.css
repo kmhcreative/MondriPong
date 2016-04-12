@@ -488,20 +488,20 @@ div.gallery figure {
 		}
 		/* game_a button layout */
 		#p1up {
-			top: -3px;
-			left: -3px;
+			top: 0px;
+			left: 0px;
 		}
 		#p1dn {
-			bottom: -3px;
-			left: -3px;
+			bottom: 0px;
+			left: 0px;
 		}
 		#p2up {
-			top: -3px;
-			right: -3px;
+			top: 0px;
+			right: 0px;
 		}
 		#p2dn {
-			bottom: -3px;
-			right: -3px;
+			bottom: 0px;
+			right: 0px;
 		}
 		.comp_10 .player1color {
 			color: white;
@@ -598,10 +598,6 @@ div.gallery figure {
 			border-right: none;
 		}
 
-
-			
-
-
 #ready {
 position: absolute;
 top: 50%;
@@ -620,6 +616,9 @@ border: 6px solid black;
 display: none;
 z-index: 4;
 }
+
+span.oh { display: inline;}
+span.ov { display: none;}
 
 @media screen and (orientation: portrait) {
 	#gamebox {
@@ -644,4 +643,6 @@ z-index: 4;
 	div.gallery figure.right {
 		float: none;
 	}
+	span.oh { display: none;}
+	span.ov { display: inline;}
 }

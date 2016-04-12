@@ -24,7 +24,7 @@
     </head>
     <body onresize="setTimeout(scaleGame,500);" onorientationchange="setTimeout(scaleGame,500);">
     	<div id="bezelmask"></div>
-        <div id="gamebox">
+        <div id="gamebox" class="game_a _1player">
 			<canvas id="game" width="400" height="400"></canvas>
 			<div id="controllers" class="game_a">
 				<button id="p1up" class="controller player1color"><span>&#9650;</span></button>
@@ -123,8 +123,8 @@
 						<fieldset>
 						<legend>Game Controls:</legend>
 						<p>Use on-screen controls or use keyboard:</p>
-						<p class="redplayer">Left: A = Up : Z = Down</p>
-						<p class="bluplayer">Right: &#8593; = Up : &#8595; = Down</p>
+						<p class="redplayer"><span class="oh">Left</span><span class="ov">Bottom</span>: A = Up : Z = Down</p>
+						<p class="bluplayer"><span class="oh">Right</span><span class="ov">Top</span>: &#8593; = Up : &#8595; = Down</p>
 						<p>ESC key quits current game</p>
 						</fieldset>
 					</div>

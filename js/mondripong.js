@@ -194,12 +194,12 @@ Game.prototype.update = function()
 	// End Game when one side gets 11 points
 	if (this.p1.score == 11 || this.p2.score == 11) {
 		if (this.p1.c.match('#') || this.p1.c.match('rgb')) {
-			var player1 = "Left Player";
+			var player1 = '<span class="oh">Left</span><span class="ov">Bottom</span> Player';
 		} else {
 			var player1 = this.p1.c.toUpperCase();
 		}
 		if (this.p2.c.match('#') || this.p2.c.match('rgb')) {
-			var player2 = "Right Player";
+			var player2 = '<span class="oh">Right</span><span class="ov">Top</span> Player';
 		} else {
 			var player2 = this.p2.c.toUpperCase();
 		}	
