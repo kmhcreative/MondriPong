@@ -35,6 +35,7 @@ function Game() {
     this.p2 = new Paddle(this.width - 74 - 2, 0, "blue");
     this.p2.y = this.height/2 - this.p2.height/2;
     this.display2 = new Display(this.width*3/4, 25,"blue");
+    this.stuck = 0;
     
     this.ball = new Ball(0, 0, "yellow");
     this.ball.x = this.width/2;
@@ -69,10 +70,16 @@ Game.prototype.update = function()
     	toggleScreen('splash');
     }
     
-    // Ball "Spin" Range (helps prevent ball getting caught in between paddles forever)
+	// Ball "Spin" Range (reduces ball exactly returninging along same angle)		
     var minimum = -2;
     var maximum = 2;
     var spin = (Math.floor(Math.random() * (maximum - minimum + 1)) + minimum);
+    // Shake stuck ball loose
+    if (this.stuck > 6) {
+    	this.stuck = 0;		// reset stuck counter
+    	this.ball.vx+=spin;	// SLAM!
+    	this.ball.vy+=spin;
+    };
     
     this.ball.update();
     this.display1.value = this.p1.score;
@@ -122,14 +129,13 @@ Game.prototype.update = function()
 			var collided = collide_y + this.ball.height >= this.p2.y &&  //below top of paddle
 			               collide_y  <= this.p2.y + this.p2.height;     //above bottom of paddle
 
-			console.log(collide_y, collided);
-
             if (collided) {
                 // collides with right paddle
                 this.ball.x = this.p2.x - this.ball.width+spin;
                 this.ball.y = Math.floor(collide_y)-spin;
                 this.ball.vx = -this.ball.vx;
 				sfx('bounce2');
+				this.stuck++;
             }
         }
     } else {
@@ -162,6 +168,7 @@ Game.prototype.update = function()
                 this.ball.y = Math.floor(collide_y)+spin;
                 this.ball.vx = -this.ball.vx;
 				sfx('bounce1');
+				this.stuck++;
             }
         }
     }
@@ -171,14 +178,17 @@ Game.prototype.update = function()
         (this.ball.vy > 0 && (this.ball.y + this.ball.height) > (this.height-this.bottom) )) {
         this.ball.vy = -this.ball.vy;
 		sfx('wallbounce');
+		this.stuck = 0;
     }
     
     if (this.ball.x >= this.width) {
 		sfx('overshot');
         this.score(this.p1);
+        this.stuck = 0;
     } else if (this.ball.x + this.ball.width <= 0) {
         sfx('overshot');
         this.score(this.p2);
+        this.stuck = 0;
     }
 	
 	// End Game when one side gets 11 points
@@ -209,6 +219,7 @@ Game.prototype.update = function()
 		} else {
 			rounds++;
 			this.paused = true;
+			ai = (ai < 9) ? ai++ : 8;	// improve AI player each round, up to speed 8
 			if ( this.p1.score > this.p2.score ) {
 				ui.winbox.className = "player1color";
 				ui.winbox.innerHTML = player1+" WINS ROUND "+rounds;
@@ -261,27 +272,33 @@ Game.prototype.score = function(p)
         this.ball.vx *= -1;
 };
 
+var ai = 4;			  // AI start speed (4 = same as human player)
+var prev;			  // variable to hold previous ball.y coordinate
 Game.prototype.computer = function() {
 	/* AI "Intelligence" is based on how far across the field it is "looking"
 	   before it starts to react to the ball's position, it starts looking when
 	   the ball crosses the centerline; it re-evaluates its choice ~3/4 across
        (from the left); and again when the ball is even closer to the paddle.
        However, it can't move it's paddle any faster than the human player,
-       it doesn't actually know which direction the ball is headed, and it
-       can't re-evaluate its paddle move faster than the game speed.
+       it doesn't actually know which direction the ball is headed, but does
+       compare the last Y position of the ball to the current position and in
+       tournaments it increases responsiveness (paddle speed) each round for up
+       to four rounds.
        
        So, yeah, it's pretty dumb.  If someone knows how to make this smarter
        please DO!  Just don't make it so smart it kills us all, okay?
-	*/ 
+	*/
+  if (!prev) { prev = this.ball.y;}
   if ( (this.ball.x > this.width/2   && this.ball.x < this.width/1.5)  || 
        (this.ball.x > this.width/1.5 && this.ball.x < this.width/1.75) || 
         this.ball.x > this.width/1.75) {
-	  if(this.ball.y > this.height/2) {
-		this.p2.y = Math.min( (this.height-this.bottom) - this.p2.height, this.p2.y + 4);
-	  } else {
-		this.p2.y = Math.max(this.top, this.p2.y - 4);
-	  }
-  }
+	  if(this.ball.y > this.height/2 && this.ball.y > prev) {
+		this.p2.y = Math.min( (this.height-this.bottom) - this.p2.height, this.p2.y + ai);
+	  } else if (this.ball.y < this.height/2 && this.ball.y < prev) {
+		this.p2.y = Math.max(this.top, this.p2.y - ai);
+	  } else {};
+  };
+  prev = this.ball.y;
 };
 
 function Rect(x, y, c, lineWidth, vlineWidth, hlineWidth, linecolor) {
@@ -425,7 +442,7 @@ String.prototype.capitalize = function() {
 	       MAIN GAME VARIABLES
    ========================================= 
 */
-var v = "1.5"		  // Version Number
+var v = "1.5.1"		  // Version Number
 /* if you contributed code that got merged on
    GitHub feel free to add your handle to the
    list below and it will appear on the "About"
@@ -586,6 +603,7 @@ function play(modename) {
 	game.p2.score = 0;
 	tournament.p1.length = 0;
 	tournament.p2.length = 0;
+	game.stuck = 0;
 	// get game options
 	players  = ui.numplayers.value;
 	numgames = ui.playrounds.value;
@@ -818,6 +836,7 @@ mode.custard = function() {
     game.ball.lineWidth  = 1;
     game.ball.vlineWidth = 3;
     game.ball.hlineWidth = 3;
+    game.ball.linecolor = "black";
     
 	game.display1.x = game.width/4;
 	game.display1.y = 25;
@@ -834,6 +853,7 @@ mode.custard = function() {
     game.p1.lineWidth =  1;
     game.p1.vlineWidth = 3;
     game.p1.hlineWidth = 3;
+    game.p1.linecolor = "black";
 
 	game.p2.c = "blue";
     game.p2.width = 54;
@@ -843,6 +863,7 @@ mode.custard = function() {
     game.p2.lineWidth =  1;
     game.p2.vlineWidth = 3;
     game.p2.hlineWidth = 3;	
+    game.p2.linecolor = "black";
 
 }
 
@@ -860,8 +881,10 @@ mode.happytoast = function() {
 	game.ball.c = "black";
 	game.ball.height = 32;
 	game.ball.width = 28;
+	game.ball.linewidth  = 0;
 	game.ball.vlineWidth = 0;
 	game.ball.hlineWidth = 0;
+	game.ball.linecolor = "transparent";
 	
 	game.display1.x = 148;
 	game.display1.y = 14;
@@ -878,6 +901,7 @@ mode.happytoast = function() {
 	game.p1.hlineWidth = 0;
 	game.p1.vlineWidth = 0;
 	game.p1.lineWidth = 6;
+	game.p1.linecolor = "black";
 	
 	game.p2.c = "blue";
 	game.p2.width = 44;
@@ -887,6 +911,7 @@ mode.happytoast = function() {
 	game.p2.hlineWidth = 0;
 	game.p2.vlineWidth = 0;
 	game.p2.lineWidth = 6;
+	game.p2.linecolor = "black";
 }
 
 mode.composition_10 = function() {
@@ -922,6 +947,7 @@ mode.composition_10 = function() {
 	game.p1.hlineWidth = 0;
 	game.p1.vlineWidth = 0;
 	game.p1.lineWidth = 6;
+	game.p1.linecolor = "black";
 	
 	game.p2.c = "red";
 	game.p2.width = 18;
@@ -931,6 +957,7 @@ mode.composition_10 = function() {
 	game.p2.hlineWidth = 0;
 	game.p2.vlineWidth = 0;
 	game.p2.lineWidth = 6;
+	game.p2.linecolor = "black";
 }
 
 mode.composition_a = function() {

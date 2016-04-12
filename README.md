@@ -22,6 +22,11 @@ The size and position of the elements is designed to reflect the size and positi
 
 ## Version History
 
+### Version 1.6
+* Fixed paddle line color error if you played a gray-bordered game mode followed by a black-bordered game mode
+* Added a "stuck" tracker so if ball bounces between the paddles 7 times the last one ends with a "slam" that sends the ball in a new direction.
+* Improved AI for computer player - now increases responsiveness each round of tournament (up to fourth round), checks the ball's previous Y position against the current one so it better knows whether to move up or down or stay put.
+
 ### Version 1.5
 * Added 4 new game modes based on actual Mondrian compositions
 * Added option to use images of actual paintings as backgrounds, if available.
